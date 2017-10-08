@@ -1,7 +1,7 @@
 import smtplib
 import argparse
-
-
+from time import sleep
+from datetime import datetime, date
 '''
 ARGS
 -s -> For Silent mode, script will not ask to start. Needs email and pass 
@@ -14,7 +14,19 @@ def parseArgs():
     
     return parser.parse_args()    
 
+def isWednesday():
+    return datetime.now().strftime('%a') == 'Wed'
+
 
 if __name__ == '__main__':
     args = parseArgs()
+    
+    while True:
+        # wait until tmr 
+        # sleep(24*60*60)
+        sleep(1)
+        if isWednesday():
+            print("IT IS WEDNESDAY MY DUDES")
+        else:
+            print("It is not wednesday :(")
 
