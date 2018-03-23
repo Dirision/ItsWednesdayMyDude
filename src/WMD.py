@@ -1,32 +1,42 @@
 import smtplib
-import argparse
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+
 from time import sleep
 from datetime import datetime, date
-'''
-ARGS
--s -> For Silent mode, script will not ask to start. Needs email and pass 
--u -> Email address - Requires a pass
--p -> Password. Required with Email address
-'''
-def parseArgs():
-    parser = argparse.ArgumentParser(description='It is wednesday, my dudes')
-    parser.add_argument('-s', '--silent', dest='silentMode', action='store_true')
-    
-    return parser.parse_args()    
+
+# Add to this list to add receivers 
+emailReceivers=[]
+COMMASPACE=', '
+# Set SMTP info
+msg = MIMEMultipart()
+msg['Subject'] = 'IT IS WEDNESDAY, MY DUDES'
+msg['From'] = ''
+msg['To'] = COMMASPACE.join(emailReceivers)
+msg.preamble = 'It is Wednesday, my dudes'
+fp = open('WMD.jpg','rb')
+img = MIMEImage(fp.read())
+fp.close()
+msg.attach(img)
 
 def isWednesday():
     return datetime.now().strftime('%a') == 'Wed'
 
-
 if __name__ == '__main__':
-    args = parseArgs()
-    
+   
+    print(emailReceivers)
+    print(msg.as_string()) 
     while True:
-        # wait until tmr 
-        # sleep(24*60*60)
-        sleep(1)
         if isWednesday():
             print("IT IS WEDNESDAY MY DUDES")
+            # compose and send message with image 
+            s=smtplib.SMTP('smtp.gmail.com')
+            s.ehlo()
+            s.starttls()
+            s.login('','') 
+            s.sendmail('',emailReceivers,msg.as_string())
+            s.quit()
         else:
             print("It is not wednesday :(")
-
+        # Wait until tomorrow 
+        sleep(24*60*60)
