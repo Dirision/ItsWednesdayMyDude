@@ -6,12 +6,12 @@ from time import sleep
 from datetime import datetime, date
 
 # Add to this list to add receivers 
-emailReceivers=[]
+emailReceivers=["Put", "victims", "emails", "in", "this", "list"]
 COMMASPACE=', '
 # Set SMTP info
 msg = MIMEMultipart()
 msg['Subject'] = 'IT IS WEDNESDAY, MY DUDES'
-msg['From'] = ''
+msg['From'] = 'yourEmailGoesHere'
 msg['To'] = COMMASPACE.join(emailReceivers)
 msg.preamble = 'It is Wednesday, my dudes'
 fp = open('WMD.jpg','rb')
@@ -33,8 +33,8 @@ if __name__ == '__main__':
             s=smtplib.SMTP('smtp.gmail.com')
             s.ehlo()
             s.starttls()
-            s.login('','') 
-            s.sendmail('',emailReceivers,msg.as_string())
+            s.login('YourEmailGoesHere','YourPasswordGoesHere') 
+            s.sendmail('YourEmailGoesHere',emailReceivers,msg.as_string())
             s.quit()
         else:
             print("It is not wednesday :(")
